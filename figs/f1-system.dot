@@ -1,0 +1,66 @@
+// Figure 1 of reports/950-paper/paper.md: the lifecycle of one run and the
+// boundary around it. No data: every box is a component of the system the rest
+// of the paper measures. Rendered by actions/950-paper-figs.py with
+//     dot -Tsvg -o f1-system.svg f1-system.dot
+// The layout is graphviz's, so no label is placed by hand and none can land on
+// an arrow. Keep every line of every label short: the whole drawing has to fit
+// the 8 inches a markdown page gives a figure, and graphviz scales the text
+// down when it does not fit, which is how a figure becomes unreadable.
+digraph system {
+  graph [bgcolor="#fcfcfb", fontname="DejaVu Sans", fontsize=13, fontcolor="#0b0b0b",
+         labelloc=t, labeljust=l, nodesep=0.30, ranksep=0.34, margin=0.12,
+         label=<<b>Figure 1: one run, from task to verdict, and the boundary around it</b><br align="left"/><font point-size="11" color="#52514e">no measurements in this figure; every box is a component of the system the rest of the paper measures</font><br align="left"/><br align="left"/>>];
+  node [shape=box, style="filled,rounded", fontname="DejaVu Sans", fontsize=11,
+        fontcolor="#0b0b0b", color="#c3c2b7", fillcolor="#f2f4f7", margin="0.14,0.09"];
+  edge [fontname="DejaVu Sans", fontsize=11, fontcolor="#52514e", color="#52514e",
+        arrowsize=0.7];
+
+  subgraph cluster_a {
+    label=<<b>a. the lifecycle of one run</b>>;
+    labeljust=l;
+    fontsize=12;
+    color="#e1e0d9";
+    style=rounded;
+
+    repo [label=<<b>task repository</b><br align="left"/><font point-size="11">starting tree, task text, the tests<br align="left"/>that ship with the tree, one issue per run<br align="left"/></font>>];
+    runner [label=<<b>runner</b><br align="left"/><font point-size="11">freezes the limits, creates the machine,<br align="left"/>writes each run into the append-only log<br align="left"/></font>>];
+    endpoints [label=<<b>model endpoints</b><br align="left"/><font point-size="11">local server and two provider proxies,<br align="left"/>all on the runner host<br align="left"/></font>>];
+    staging [label=<<b>staging virtual machine</b><br align="left"/><font point-size="11">runs the hidden acceptance tests; the<br align="left"/>model never sees them and never runs here<br align="left"/></font>>];
+    verdict [label=<<b>verdict and run log</b><br align="left"/><font point-size="11">checks passed, limits, calls,<br align="left"/>seconds, energy<br align="left"/></font>>];
+
+    subgraph cluster_boundary {
+      label=<<b><font color="#d03b3b">the boundary</font></b>>;
+      labeljust=l;
+      labelloc=t;
+      fontsize=11;
+      color="#d03b3b";
+      style="rounded,dashed";
+      margin=10;
+      executor [label=<<b>executor virtual machine</b><br align="left"/><font point-size="11">cloned for one task, destroyed when it ends;<br align="left"/>the model works here, alone and unwatched;<br align="left"/>no person approves a command<br align="left"/><font color="#d03b3b">default-deny firewall both ways. Out: the runner<br align="left"/>host, DNS, DHCP. In: DHCP replies and ping. One Git<br align="left"/>token scoped to the work organisation lives inside;<br align="left"/>no provider key ever does. The tests, the verdict<br align="left"/>and the log are outside.<br align="left"/></font></font>>, fillcolor="#eef4fb", color="#2a78d6"];
+    }
+
+    repo -> runner [label=" the task, and the tree it starts from"];
+    runner -> executor [label=" clones the machine, freezes the limits"];
+    executor -> endpoints [label=" one model call per turn,\l over the one allowed hop\l", dir=both];
+    executor -> repo [label=" pushes its branch and uploads its own\l conversation, before it is destroyed\l", constraint=false];
+    executor -> staging [label=" the branch the run delivered"];
+    staging -> verdict;
+  }
+
+  subgraph cluster_b {
+    label=<<b>b. how much of the machine the model may touch</b>>;
+    labeljust=l;
+    fontsize=12;
+    color="#e1e0d9";
+    style=rounded;
+
+    p1 [label=<<b>a text protocol</b><br align="left"/><font point-size="11">whole files in, whole files out,<br align="left"/>no tools<br align="left"/><b><font color="#2a78d6">measured here</font></b><br align="left"/></font>>];
+    p2 [label=<<b>an agent loop with a shell</b><br align="left"/><font point-size="11">the same machine, shell and<br align="left"/>file tools<br align="left"/><b><font color="#2a78d6">measured here</font></b><br align="left"/></font>>];
+    p3 [label=<<b><font color="#898781">a planning and reviewing role</font></b><br align="left"/><font point-size="11" color="#898781">the whole repository, chooses<br align="left"/>its own work<br align="left"/><b>not measured here</b><br align="left"/></font>>, style="filled,rounded,dashed", fillcolor="#fcfcfb", color="#898781"];
+
+    p1 -> p2 [color="#c3c2b7", arrowsize=0.6, label=" more of the machine"];
+    p2 -> p3 [color="#c3c2b7", arrowsize=0.6];
+  }
+
+  verdict -> p1 [style=invis];
+}

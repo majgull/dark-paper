@@ -1,0 +1,64 @@
+// Figure 2 of paper.md: how the hidden tests were validated in both
+// directions and fixed before any measurement (section 5.1). Rendered by
+// figs.py with
+//     dot -Tsvg -o f2-tests.svg f2-tests.dot
+// No measurement is made in this figure: the counts on the boxes are the ones
+// of section 5.1's tables, copied here so a reader can see the shape of the
+// exercise before reading the tables. Same layout rules as f1-system.dot: the
+// layout is graphviz's, every label line stays short, nothing is placed by hand.
+digraph tests {
+  graph [bgcolor="#fcfcfb", fontname="DejaVu Sans", fontsize=13, fontcolor="#0b0b0b",
+         labelloc=t, labeljust=l, nodesep=0.28, ranksep=0.36, margin=0.12, rankdir=TB,
+         label=<<b>Figure 2: how the hidden tests were checked before they judged anything</b><br align="left"/><font point-size="11" color="#52514e">two directions, two holes found, two fixes, then one frozen set; the counts are those of section 5.1</font><br align="left"/><br align="left"/>>];
+  node [shape=box, style="filled,rounded", fontname="DejaVu Sans", fontsize=11,
+        fontcolor="#0b0b0b", color="#c3c2b7", fillcolor="#f2f4f7", margin="0.14,0.09"];
+  edge [fontname="DejaVu Sans", fontsize=10, fontcolor="#52514e", color="#52514e",
+        arrowsize=0.7];
+
+  start [label=<<b>the task set as first written</b><br align="left"/><font point-size="11">8 tasks; each with a gold solution kept out of the tree<br align="left"/>and hidden tests the model never sees: 61 tests in all<br align="left"/></font>>];
+
+  subgraph cluster_dir {
+    label=<<b>two directions, run before any measurement</b>>;
+    labeljust=l;
+    fontsize=12;
+    color="#e1e0d9";
+    style=rounded;
+
+    ref [label=<<b>does a correct solution pass?</b><br align="left"/><font point-size="11">two reference solutions per task, written from the<br align="left"/>task text alone by Claude Sonnet 5 and GLM 5.3 Flash,<br align="left"/>neither a model under test in the tools question<br align="left"/></font>>, fillcolor="#eef4fb", color="#2a78d6"];
+    refout [label=<<font point-size="11">60 and 61 of 61 tests passed<br align="left"/>the one failure ruled against the solution:<br align="left"/>an Arabic-Indic digit the task text forbids<br align="left"/></font>>];
+    mut [label=<<b>does a wrong solution fail?</b><br align="left"/><font point-size="11">29 mutants: the gold solution with one named<br align="left"/>sentence of the specification broken, one at a time<br align="left"/></font>>, fillcolor="#fdf1ec", color="#d8622d"];
+    mutout [label=<<font point-size="11">24 rejected by a hidden test<br align="left"/>3 rejected only by the tests in the tree, counted as missed<br align="left"/><font color="#d03b3b">2 survived: no test read the moved code</font><br align="left"/></font>>];
+  }
+
+  fix [label=<<b>two fixes to the tests</b><br align="left"/><font point-size="11">three tests compare moved code byte for byte with the original<br align="left"/>the empty string joins the duration parser's reject list<br align="left"/>61 tests become 64<br align="left"/></font>>, fillcolor="#fdf1ec", color="#d8622d"];
+
+  again [label=<<b>both directions again, under the fixed tests</b><br align="left"/><font point-size="11">29 of 29 mutants rejected<br align="left"/>reference solutions pass 63 and 64 of 64; the one failure is the same ruling<br align="left"/></font>>];
+
+  frozen [label=<<b>the tests frozen and tagged</b><br align="left"/><font point-size="11">one version, named on every closing record of every run in this paper<br align="left"/></font>>, fillcolor="#eef4fb", color="#2a78d6"];
+
+  subgraph cluster_stable {
+    label=<<b>then, through the live runner</b>>;
+    labeljust=l;
+    fontsize=12;
+    color="#e1e0d9";
+    style=rounded;
+    margin=16;
+    smoke [label=<<font point-size="11">six reference branches scored by the runner itself:<br align="left"/>one batch in the run log, same test version as every run<br align="left"/></font>>];
+    rescore [label=<<font point-size="11">41 branches from earlier runs scored again under the fixed tests,<br align="left"/>drawn with a fixed seed across the earlier outcomes: 0 verdicts changed<br align="left"/></font>>];
+  }
+
+  runs [label=<<b>every run of the tools and thinking questions is scored by this set</b>>, fillcolor="#f2f4f7"];
+
+  start -> ref;
+  start -> mut;
+  ref -> refout;
+  mut -> mutout;
+  refout -> fix [style=dashed, label="nothing to fix"];
+  mutout -> fix [label="the two holes"];
+  fix -> again;
+  again -> frozen;
+  frozen -> smoke;
+  frozen -> rescore;
+  smoke -> runs;
+  rescore -> runs;
+}

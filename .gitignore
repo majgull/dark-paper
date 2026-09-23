@@ -1,0 +1,9 @@
+evidence/derived/
+evidence/launch/
+evidence/ledger/
+*.png
+*.pyc
+__pycache__/
+.pytest_cache/
+runs/*/
+.venv/
