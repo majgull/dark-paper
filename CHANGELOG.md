@@ -1,10 +1,9 @@
 # Changelog
 
 All notable changes to this repository are recorded here. A version names a
-tagged release: `v1.0` is the first release, and `v1.1` is the errata release
-being prepared and not yet tagged.
+tagged release: `v1.0` is the first release, and `v1.1` is an errata release.
 
-## v1.1 (unreleased)
+## v1.1 (2026-09-24)
 
 Errata. The paper's numbers are unchanged. The corrections are to the shipped
 notes and to one sentence in the paper that misdescribed where one of its
