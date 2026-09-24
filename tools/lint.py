@@ -281,8 +281,8 @@ def check_body_code_span(found, lines):
     inside it is the record's own vocabulary: a field name, an outcome value, a
     batch id, a repository path, a task id, a token like PREFIX-OK. The body has
     plain words for every one of them and the reproducing section keeps the raw
-    form, so a backtick in the body is a sentence that stopped translating
-    (950 v4 review, section 2, body leaks). The span runs to the reproducing
+    form, so a backtick in the body is a sentence that stopped translating.
+    The span runs to the reproducing
     section, the same span body-provenance reads."""
     end = body_end(lines)
     in_fence = False

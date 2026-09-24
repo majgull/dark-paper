@@ -1,10 +1,15 @@
-# Round zero, 2026-09-05: how much of a verdict is the judge?
+# Round zero, 2026-09-05: how much of a verdict comes from the hidden tests?
+
+## Terms
+
+- **operator**: the person who owns the machine and the run.
+- **runner**: the pipeline that runs one task to a verdict.
 
 Every table of pass counts is a table of judge verdicts. A judge that has changed since a round ran shifts every row of that round, and running the round again does not show it: the new run is judged by the new judge. Round zero asks the question directly. Take branches an earlier round already delivered, judge them again with the acceptance as it stands now, and count the verdicts that change.
 
 ## What was judged, and what was not
 
-operator's decision (D2) was to copy, never to unarchive. The delivered branches live in `dark-archive` and `dark-archive-l2`, whose repositories are archived, which in Gitea means read-only, and judging writes a branch. Each branch was mirrored into a fresh organisation, `dark-rejudge`, and judged there. **The archive was only ever read.** `actions/950-round-zero.py` is the script; the runs are in the ledger under shifts `20260905-070834-round-zero` and `20260905-073355-round-zero`, arm `rejudge-<the original arm>`.
+operator's decision was to copy, never to unarchive. The delivered branches live in two archive organisations, whose repositories are read-only in Gitea, and judging writes a branch. Each branch was mirrored into a fresh organisation and judged there. **The archive was only ever read.** `actions/950-round-zero.py` is the script; the runs are in the ledger under shifts `20260905-070834-round-zero` and `20260905-073355-round-zero`, arm `rejudge-<the original arm>`.
 
 The archive holds 457 delivered branches, which is eight to eleven hours of staging machines and does not fit a night. Three filters make it a measurement rather than an endurance test.
 
@@ -30,7 +35,7 @@ Not one verdict moved, and not one branch's count of passed checks moved either:
 
 ## What the four unjudged branches were
 
-Four branches of `dark-archive/t-hello-go` came back `COPY FAILED` with `src refspec ... does not match any`. The cause was a defect in the script rather than in the archive: it cached each mirror clone under the repository's name, and `t-hello-go` exists in both `dark-archive` and `dark-archive-l2`, so the second organisation's repository was handed the first one's mirror, which does not hold its branches. Fixed by keying the cache on the organisation as well, and five `hello-go` branches were then judged with the same result: 0 flips.
+Four branches of `t-hello-go` in the first archive organisation came back `COPY FAILED` with `src refspec ... does not match any`. The cause was a defect in the script rather than in the archive: it cached each mirror clone under the repository's name, and `t-hello-go` exists in both archive organisations, so the second organisation's repository was handed the first one's mirror, which does not hold its branches. Fixed by keying the cache on the organisation as well, and five `hello-go` branches were then judged with the same result: 0 flips.
 
 ## What this says, and what it does not
 

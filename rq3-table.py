@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the per-cell and per-run tables for 950 RQ3 round one from the
+"""Build the per-cell and per-run tables for the thinking question, round one from the
 ledger snapshot and launcher log committed under evidence/. Run from this directory."""
 import argparse
 import json

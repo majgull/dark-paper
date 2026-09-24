@@ -195,7 +195,7 @@ def impossible_rows(rows):
     """Rows where the distinct replies outnumber the calls. Both counters are
     written by the executor over the same calls, so this cannot happen; if it
     does, the two numbers came from different populations and the difference
-    between them is not a count of anything (950 v4 review, F3 and F4)."""
+    between them is not a count of anything."""
     return [r for r in counted(rows) if r["distinct_calls"] > r["calls"]]
 
 
@@ -352,7 +352,7 @@ def unmeasured(ax, y, width, height, words="not measured"):
     with the reason in it, never a bar of length zero. Two reasons occur: a cell
     whose idle sample came back impossible has no net figure at all, and a cell
     served at a provider has one that measures the scaffold's machine and not
-    the model, so it is not comparable with a local bar (950 v4 review, F7)."""
+    the model, so it is not comparable with a local bar."""
     ax.barh(y, width, height=height, facecolor="none", edgecolor=AXIS,
             linestyle=(0, (3, 3)), linewidth=1.2, zorder=3)
     ax.text(width / 2, y, words, va="center", ha="center", fontsize=FS,
@@ -680,8 +680,7 @@ def fig_rq3_mechanism(rq3_rows, rq3b_rows, caps, outdir):
         # so a count sits in open space rather than on another row's bar, and
         # one line more per further narrow segment in the same row, so two
         # counts cannot sit on each other. Without the leader a reader cannot
-        # tell which row, or which segment, a floating numeral belongs to
-        # (950 v4 review, section 2, figure 4).
+        # tell which row, or which segment, a floating numeral belongs to.
         lifted = i
         for k in kinds:
             n = ends[level][k]

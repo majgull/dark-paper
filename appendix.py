@@ -23,7 +23,7 @@ carries more distinct replies than calls. The same check runs before either of
 the two modes above, over the snapshot the mechanism table of section 5.3 is
 built from: a derived table whose numerator and denominator come from different
 populations produces rows that cannot happen, and one that cannot happen is a
-defect in the method rather than an outlier (950 v4 review, F3 and F4).
+defect in the method rather than an outlier.
 """
 import argparse
 import json
@@ -233,14 +233,14 @@ def build():
     # The seven runs the seconds limit ended, as one number the body can carry:
     # how far past its class limit the latest of them ran. It replaces the
     # semicolon-joined shell aggregation the body pasted, "1 additive 904; 3
-    # additive 905; 3 mechanical 304" (950 v4 review, section 2, body leaks).
+    # additive 905; 3 mechanical 304".
     row("4.7", "the largest overshoot past a class limit among the runs the seconds limit ended",
         f"jq -rs --rawfile S {S3} '[.[]|{SEL}|select(.fail_kind==\"seconds\")|"
         f"(.seconds-(if .cls==\"mechanical\" then 300 else 900 end))]|max' {L6}", "5")
 
     # The request counter, which section 4.7 asserted a retry above. It cannot
     # show one: the excess over the call counter is the recorded count of
-    # budget-forcing cuts, run by run (950 v4 review, F8).
+    # budget-forcing cuts, run by run.
     row("4.7", "budget-forcing cuts recorded over the RQ3 round",
         q(S3, L6, ".cuts//0", "add"), "13")
     row("4.7", "requests over calls on the runs that recorded a request count",
@@ -299,7 +299,7 @@ def build():
         "grep -o '64/64' notes/950-judge-v4.md | head -1", "64/64")
     # The abstract quotes the amended set, which is the set every run here was
     # scored under; the pre-amendment pair stays as the clause that motivates it
-    # (950 v4 review, F6). Same two figures, without the denominator inside them.
+    # Same two figures, without the denominator inside them.
     row("abstract", "sonnet solution against the amended judge, checks passed",
         "grep -o '63/64' notes/950-judge-v4.md | head -1 | cut -d/ -f1", "63")
     row("abstract", "glm solution against the amended judge, checks passed",
@@ -307,8 +307,7 @@ def build():
     row("5.1", "runs in the RQ1 smoke shift under the amended judge",
         f"jq -rs '[.[]|select(.kind==\"run.end\" and .shift==\"20260905-143140-rq1-smoke-v4\")]|length' {L5}", "6")
     # One figure per reference solution rather than the six-way list the body
-    # pasted, which carried the batch's own arm names, undefined in the paper
-    # (950 v4 review, section 2, body leaks).
+    # pasted, which carried the batch's own arm names, undefined in the paper.
     for ref, name in (("ref-glm", "the GLM 5.3 Flash reference solution"),
                       ("ref-sonnet", "the Claude Sonnet 5 reference solution")):
         row("5.1", f"that batch, {name}: checks passed of checks run over its three tasks",
@@ -364,7 +363,7 @@ def build():
         "2026-09-05T15:54:05+02:00 to 2026-09-05T18:28:36+02:00")
     # The body used to print the record's outcome enum here. It says the same
     # thing as a count of the one outcome that would be neither a failed check
-    # nor a spent limit (950 v4 review, section 2, body leaks).
+    # nor a spent limit.
     row("5.2", "RQ2 runs recorded as a structural failure",
         q(S2, L5, 'select(.outcome=="fail:structural")'), "0")
     row("5.2", "runs whose virtual machine was destroyed, of 80",
@@ -418,7 +417,7 @@ def build():
     row("5.2", "session failures on semver-go at 2 of 3 checks",
         q(S2, L5, 'select(.task=="semver-go" and .arm=="rq2c-session" and .outcome!="pass" and .checks_ok==2)'), "3")
     # The check line itself was raw record text in the body. These two rows say
-    # what it said (950 v4 review, section 2, body leaks).
+    # what it said.
     row("5.2", "duration-python in the no-tools arm: runs whose hidden reject check passed, of five",
         f"jq -rs --rawfile S {S2} '[.[]|{SEL}|select(.task==\"duration-python\" and .arm==\"rq2c-pipeline\")|"
         f"select(.detail|test(\"hidden-rejects ok\"))]|length' {L5}", "2")
@@ -464,7 +463,7 @@ def build():
         row("5.3", f"tasks solved at think {think}, of 48",
             q(S3, L6, f'select(.think=="{think}" and .outcome=="pass")'))
         # Section 4.1 states three outcomes, so every headline count carries the
-        # denominator that leaves the limit-ended runs out (950 v4 review, F1).
+        # denominator that leaves the limit-ended runs out.
         row("abstract, 5.3", f"think {think}, runs that reached a check, of 48",
             q(S3, L6, f'select(.think=="{think}" and .fail_kind==null)'))
     for think in ("none", "low", "medium"):
@@ -509,7 +508,7 @@ def build():
     # model runs its cell of none under a second deployment with thinking
     # switched off in the chat template; a model at a provider takes the budget
     # as one field of the same request, so its three cells differ in that field
-    # and in nothing else (950 v4 review, F2).
+    # and in nothing else.
     row("5.3, 6", "outcomes at each budget that come from the four locally served models",
         q(S3, L6, 'select(.think=="none" and (.tier|startswith("my/")))'), "32")
     row("abstract, 5.3", "the two models at a provider, runs per budget",
@@ -535,7 +534,7 @@ def build():
     # The round-one derived table leaves the body. Its two numbers came from
     # different populations, the run log's call counter and the assistant rows
     # of the uploaded conversation, so their difference is not a count of calls
-    # (950 v4 review, F3). What survives is its size, in section 7.
+    # What survives is its size, in section 7.
     row("6", "rows in the derived file, one per RQ3 run", f"wc -l < {D}", "144")
     row("6", "runs whose conversation was read of 144",
         f"jq -rs '[.[]|select(.distinct_calls!=null)]|length' {D}", "137")
@@ -778,7 +777,7 @@ def build():
         f"jq -rs '[.[]|select(.kind==\"run.end\" and .wh!=null and .wh<0)]|length' {L6}", "0")
     # A corrected wrap on a run row cannot show up as a negative figure, so the
     # row above is a check on the baseline path and not on the run path. What
-    # bears on the run path is the wattage each cell implies (950 v4 review, F9).
+    # bears on the run path is the wattage each cell implies.
     row("6", "implied watts of the local cell with the largest gross figure",
         f"jq -rs --rawfile S {S3} '[.[]|{SEL}|select(.tier|startswith(\"my/\"))|"
         f"{{s:.shift,wh:.wh,ws:.wall_seconds}}]|group_by(.s)|"
@@ -843,8 +842,8 @@ def impossible_rows(path):
     row like that cannot happen; when one does, the two numbers were taken over
     different populations and their difference counts nothing. Round one's
     derived file has three of them, which is why the paper's mechanism table is
-    round two's records and why this runs before the table is built
-    (950 v4 review, F3 and F4)."""
+    round two's records and why this runs before the table is built.
+    """
     out = []
     for line in Path(path).read_text().splitlines():
         line = line.strip()

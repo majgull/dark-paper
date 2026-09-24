@@ -1,4 +1,12 @@
-# 950 L1: ground truth for the obs chain's hidden tests
+# Ground truth for the obs chain's hidden tests
+
+## Terms
+
+- **hub**: the coordinating session that plans and reviews.
+- **operator**: the person who owns the machine and the run.
+- **bench**: the measuring instrument, which runs the same runner over isolated Git organisations.
+- **runner**: the pipeline that runs one task to a verdict.
+- **factory**: an earlier name for the pipeline, kept in session names and paths below.
 
 Written 2026-09-04 01:50 by the hub session `factory-rigor-plan`, from the runs recorded below. L1 is the second rung of the validation ladder (feasibility D29): before any number is collected from the tests, show that the tests measure the specification rather than one solution's habits.
 
@@ -8,16 +16,16 @@ A **task** is one ticket with a written specification. Its **oracle** is the ref
 
 ## The two directions, and what each answered
 
-**Direction one: does the acceptance reject a correct solution?** Two second references were written from the specification text alone, one per model, each in a workspace holding the task's starting tree and `SPEC.md` and nothing else (`dark-bench/tools/refwork.py`). Both were then judged by the same hidden acceptance the runner uses, rebuilt as a git repository so the history-dependent checks ran too (`dark-bench/tools/refcheck.py`).
+**Direction one: does the acceptance reject a correct solution?** Two second references were written from the specification text alone, one per model, each in a workspace holding the task's starting tree and `SPEC.md` and nothing else (`tools/refwork.py` in the bench repository). Both were then judged by the same hidden acceptance the runner uses, rebuilt as a git repository so the history-dependent checks ran too (`tools/refcheck.py` in the bench repository).
 
 | reference | model | tasks | checks run | checks passed | disagreements |
 |---|---|---|---|---|---|
 | `ref-dsf` | deepseek-v4-flash:cloud, session `t950-l1-reference-dsf` | 6 | 174 | 174 | 0 |
 | `ref-sonnet` | claude-sonnet-5, session `t950-l1-reference-sonnet` | 6 | 174 | 174 | 0 |
 
-Per task, both references: obs-01-parse 11 of 11, obs-02-count 24 of 24, obs-03-package 26 of 26, obs-04-tzfix 25 of 25, obs-05-report 37 of 37, obs-06-typehints 51 of 51, and `.factory/verify.sh` green in every tree. **No check failed on either reference, so there is no adjudication row of the first kind.** The table has none because none was earned, not because none was looked for: the run is reproducible with the two trees kept at `/tmp/claude-1000/-home-operator-main-hub/5e8e125a-b74e-46e9-9e6c-dcc2ef519665/scratchpad/ref-dsf` and `ref-sonnet` and the JSON results beside them.
+Per task, both references: obs-01-parse 11 of 11, obs-02-count 24 of 24, obs-03-package 26 of 26, obs-04-tzfix 25 of 25, obs-05-report 37 of 37, obs-06-typehints 51 of 51, and `.factory/verify.sh` green in every tree. **No check failed on either reference, so there is no adjudication row of the first kind.** The table has none because none was earned, not because none was looked for: the run is reproducible with the two working copies kept as the session's scratchpad trees `ref-dsf` and `ref-sonnet` and the JSON results beside them.
 
-**Direction two: does the acceptance accept a wrong solution?** 23 mutants, each the oracle with one named clause broken and a `WHY` file quoting the sentence it violates (`dark-bench/tasks/<id>/mutants/`, driver `tools/mutants.py`). A mutant that only `visible-tests` catches counts as missed: that check runs the tests in the tree, which under a mutant are the oracle's own, and a model writes its own.
+**Direction two: does the acceptance accept a wrong solution?** 23 mutants, each the oracle with one named clause broken and a `WHY` file quoting the sentence it violates (`tasks/<id>/mutants/` in the bench repository, driver `tools/mutants.py`). A mutant that only `visible-tests` catches counts as missed: that check runs the tests in the tree, which under a mutant are the oracle's own, and a model writes its own.
 
 | task | mutants | caught by a hidden check | missed |
 |---|---|---|---|
@@ -65,9 +73,9 @@ Everything else in the notes is a decision the specification leaves open and bot
 
 Runner `6ceee8f` on git-host, bench `dc06973` pushed and deployed as `70d39b5` (the runner host's checkout carries one digest commit per shift on top). Reference sessions: `t950-l1-reference-dsf` (deepseek-v4-flash:cloud, finished, six commits, 751 insertions) and `t950-l1-reference-sonnet` (claude-sonnet-5, finished, 85 turns, 656 s, $2.47, seven commits). Their own reports are `reports/950-l1-ref-dsf.md` and `reports/950-l1-ref-sonnet.md`; the sonnet session was refused the write to that path (outside its worktree), reported the refusal, and committed the report in its worktree, from where it was copied here.
 
-# 950 L1 for the eight RQ2 and RQ3 tasks, 2026-09-05
+# Ground truth for the eight tasks of the tools and thinking questions, 2026-09-05
 
-The same two directions, asked of the eight tasks the RQ2 and RQ3 comparison sets use (`dark-bench/frozen/rq2-2026-09-05-tasks.md`). Written 2026-09-05 by the hub session `factory-rigor-plan` from the runs below.
+The same two directions, asked of the eight tasks the RQ2 and RQ3 comparison sets use (`frozen/rq2-2026-09-05-tasks.md` in the bench repository). Written 2026-09-05 by the hub session `factory-rigor-plan` from the runs below.
 
 The second families are claude-sonnet-5 and glm-5.3-flash, not the deepseek used for the obs chain. deepseek is the model under test in RQ2, and a reference written by the arm under test would bias the instrument that judges it toward that arm's own style.
 
@@ -143,4 +151,4 @@ All of this arrived while the RQ2 rounds were already running under this accepta
 
 ## Provenance
 
-Trees kept at `<scratchpad>/refw2-sonnet` and `<scratchpad>/refw2-glm`, eight commits each, one per task; results at `<scratchpad>/refcheck-sonnet.json` and `<scratchpad>/refcheck-glm.json`. Task list and its selection rule in `dark-bench/frozen/rq2-2026-09-05-tasks.md` (bench `54af6c5`). Writers' own reports at `reports/950-l1-ref2-sonnet.md` and `reports/950-l1-ref2-glm.md`; neither is the evidence here, the acceptance runs are.
+Trees kept at `<scratchpad>/refw2-sonnet` and `<scratchpad>/refw2-glm`, eight commits each, one per task; results at `<scratchpad>/refcheck-sonnet.json` and `<scratchpad>/refcheck-glm.json`. Task list and its selection rule in `frozen/rq2-2026-09-05-tasks.md` in the bench repository (bench `54af6c5`). Writers' own reports at `reports/950-l1-ref2-sonnet.md` and `reports/950-l1-ref2-glm.md`; neither is the evidence here, the acceptance runs are.

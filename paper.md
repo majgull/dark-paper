@@ -421,10 +421,10 @@ The record keeps its own vocabulary and the prose translates it. In a closing ro
 
 | file | sha256 | what this paper takes from it |
 |---|---|---|
-| `notes/950-l1-adjudication.md` | `3cc9f75e9a987a0601a86940cc7fe4fa392e8cf9bd279ea739db5386bd903c75` | the two reference rows, the mutant table as first run, and the six-task chain exercise |
-| `notes/950-judge-v4.md` | `ee76832da471b650ad41c6f128b60b567ac7a2925ce02c9cfa2f401dde7e4684` | the mutant row after the two fixes, the two solutions against the fixed tests, and the commit the tag sits on |
-| `notes/950-round-zero.md` | `d6e540b1ad42a152a58c01a01e08d9b22ceb835928b99b6aa8aaa35395462fd1` | the branches attempted, scored and flipped, and how many were eligible |
-| `notes/950-research.md` | `155388b37133abafe4f9cf318000a23dc2e6210d3ac87937912dc0b87a0e47e0` | the thinking-budget scale in characters per call |
+| `notes/950-l1-adjudication.md` | `789268303d683003e29ceea4f19b43339eac4b228fee3ff87a3c30e0cc0afe34` | the two reference rows, the mutant table as first run, and the six-task chain exercise |
+| `notes/950-judge-v4.md` | `1b1a163c715c329f4f7c2c627314f7b6d92fbf5ec6aa28d1bbb43a72e8a41481` | the mutant row after the two fixes, the two solutions against the fixed tests, and the commit the tag sits on |
+| `notes/950-round-zero.md` | `c144c2097425e125b5b29e532088cd601cf62c84469e21ee30417e0d72afd818` | the branches attempted, scored and flipped, and how many were eligible |
+| `notes/950-research.md` | `6dc0382b7c087c0e9b651a5ee5ac025b6b4450bcadfe9d0e23b28c4a107b769d` | the thinking-budget scale in characters per call |
 
 Three scripts beside this paper turn the evidence files into what it shows, and all three run from the repository root, after `tools/fetch-evidence.py` has put the evidence files in place. The appendix is written by `appendix.py`, which runs every row's command and stops if a command's output disagrees with the committed row; `python3 appendix.py --check` is the one command that verifies every number in this paper. The figure script runs in a pinned Python environment, which `requirements.txt` defines; the appendix commands need `jq`, coreutils and `git`.
 
