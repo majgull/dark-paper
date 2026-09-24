@@ -75,7 +75,7 @@ Runner `6ceee8f` on git-host, bench `dc06973` pushed and deployed as `70d39b5` (
 
 # Ground truth for the eight tasks of the tools and thinking questions, 2026-09-05
 
-The same two directions, asked of the eight tasks the RQ2 and RQ3 comparison sets use (`frozen/rq2-2026-09-05-tasks.md` in the bench repository). Written 2026-09-05 by the hub session `factory-rigor-plan` from the runs below.
+The same two directions, asked of the eight tasks the RQ2 and RQ3 comparison sets use (`frozen/rq2-2026-09-05-tasks.md` in the bench repository; copied here at `study-inputs/frozen/rq2-2026-09-05-tasks.md`). Written 2026-09-05 by the hub session `factory-rigor-plan` from the runs below.
 
 The second families are claude-sonnet-5 and glm-5.3-flash, not the deepseek used for the obs chain. deepseek is the model under test in RQ2, and a reference written by the arm under test would bias the instrument that judges it toward that arm's own style.
 
@@ -151,4 +151,4 @@ All of this arrived while the RQ2 rounds were already running under this accepta
 
 ## Provenance
 
-Trees kept at `<scratchpad>/refw2-sonnet` and `<scratchpad>/refw2-glm`, eight commits each, one per task; results at `<scratchpad>/refcheck-sonnet.json` and `<scratchpad>/refcheck-glm.json`. Task list and its selection rule in `frozen/rq2-2026-09-05-tasks.md` in the bench repository (bench `54af6c5`). Writers' own reports at `reports/950-l1-ref2-sonnet.md` and `reports/950-l1-ref2-glm.md`; neither is the evidence here, the acceptance runs are.
+Trees kept at `<scratchpad>/refw2-sonnet` and `<scratchpad>/refw2-glm`, eight commits each, one per task; results at `<scratchpad>/refcheck-sonnet.json` and `<scratchpad>/refcheck-glm.json`. Task list and its selection rule in `frozen/rq2-2026-09-05-tasks.md` in the bench repository (bench `54af6c5`; copied here at `study-inputs/frozen/rq2-2026-09-05-tasks.md`). Writers' own reports at `reports/950-l1-ref2-sonnet.md` and `reports/950-l1-ref2-glm.md`; neither is the evidence here, the acceptance runs are.
